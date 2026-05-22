@@ -128,6 +128,8 @@ func (w *WordlistInput) readFile(path string) error {
 	var data [][]byte
 	var ok bool
 	reader := bufio.NewScanner(file)
+	buf := make([]byte, 10*1024*1024)           // 10MB initial buffer
+	reader.Buffer(buf, 100*1024*1024)
 	re := regexp.MustCompile(`(?i)%ext%`)
 	for reader.Scan() {
 		if w.config.DirSearchCompat && len(w.config.Extensions) > 0 {
